@@ -1,18 +1,20 @@
 import re
 
 from behave import given, when, then
-from behave.api.pending_step import StepNotImplementedError
 from playwright.sync_api import expect
+
+from src.features.pages.main_page import MainPage
 
 
 @given(u'att vi är på sidan')
 def step_impl(context):
-    context.page.goto( context.base_url, timeout=5000 )
+    context.main = MainPage(context.base_url, context.page)
+    context.main.navigate()
 
 
 @when(u'användaren klickar på "Lägg till spelare"')
 def step_impl(context):
-    context.page.get_by_role("button", name="Lägg till spelare").click()
+    context.main.click_add_player_button()
 
 
 @when(u'användaren skriver "{player}"')
